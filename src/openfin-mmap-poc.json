@@ -1,0 +1,14 @@
+{
+  "startup_app": {
+    "autoShow": true,
+    "name": "mmap-test",
+    "saveWindowState": false,
+    "url": "http://localhost:4200/index.html",
+    "uuid": "mmap-test"
+  },
+  "runtime": {
+    "arguments": "--no-sandbox",
+    "forceLatest": true,
+    "version": "14.78.45.4000"
+  }
+}

@@ -1,0 +1,9 @@
+.cell {
+  padding: 5px;
+  width: 100%;
+  text-align: left;
+}
+
+.row {
+  border: solid black 2px;
+}
