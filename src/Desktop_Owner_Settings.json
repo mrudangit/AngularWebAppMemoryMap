@@ -1,0 +1,12 @@
+{
+  "applicationSettings": {
+    "http://localhost:4200/openfin-mmap-poc.json": {
+      "mappedFiles": {
+        "rubicon": {
+          "path": "H:/OpenFinMMAP/mmapFiles/marketData.dat",
+          "access": "READ_ONLY"
+        }
+      }
+    }
+  }
+}
