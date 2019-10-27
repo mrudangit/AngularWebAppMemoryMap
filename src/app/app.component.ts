@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MarketData} from './MarketData';
+import {AgGridAngular} from 'ag-grid-angular';
 declare var fin;
 @Component({
   selector: 'app-root',
@@ -12,6 +13,19 @@ export class AppComponent implements  OnInit {
   private worker: Worker;
   private buffer: SharedArrayBuffer;
   public marketDataList: Array<MarketData> = new Array<MarketData>();
+
+  @ViewChild('agGrid', {static: true}) agGrid: AgGridAngular;
+
+
+  columnDefs = [
+    {headerName: 'Symbol', field: 'symbol' },
+    {headerName: 'Mid', field: 'mid' },
+    {headerName: 'Bid', field: 'bidPrice0'},
+    {headerName: 'BidSize', field: 'bidSize0'},
+    {headerName: 'Ask', field: 'askPrice0'},
+    {headerName: 'AskSize', field: 'askSize0'}
+  ];
+  rowData: any;
 
   public startReadingMMAP(): void {
     const MappedFiles = fin && fin.experimental && fin.experimental.MappedFiles;
@@ -33,6 +47,7 @@ export class AppComponent implements  OnInit {
 
       }
 
+      this.agGrid.api.updateRowData({add: this.marketDataList});
 
 
 
@@ -40,6 +55,7 @@ export class AppComponent implements  OnInit {
         this.marketDataList.forEach(value => {
           value.refresh();
         });
+        this.agGrid.api.refreshCells();
       }, 200);
 
     }
@@ -61,5 +77,11 @@ export class AppComponent implements  OnInit {
 
   startReadingInMessagingWorker($event: MouseEvent) {
     this.worker.postMessage({type: 'start', mmapBuffer: null});
+  }
+
+  onGridReady($event: any) {
+
+    this.agGrid.api.setRowData(this.marketDataList);
+
   }
 }

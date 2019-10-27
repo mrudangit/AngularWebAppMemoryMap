@@ -2,19 +2,31 @@
 <h1 style="text-align: center">OpenFin MMAP POC</h1>
   <button (click)="startMessagingWorker($event)" >Start Reading</button>
 
-  <div class="row" style="display: flex">
-    <div class="cell" >Symbol</div>
-    <div class="cell" >Mid</div>
-    <div class="cell" >BidPrice</div>
-    <div class="cell" >AskPrice</div>
-  </div>
-  <div *ngFor="let m of marketDataList">
-    <div class="row" style="display: flex">
-      <div class="cell" >{{m.symbol}}</div>
-      <div class="cell" >{{m.mid}}</div>
-      <div class="cell" >{{m.bidPrice0}}</div>
-      <div class="cell" >{{m.askPrice0}}</div>
-    </div>
-  </div>
+<!--  <div class="row" style="display: flex">-->
+<!--    <div class="cell" >Symbol</div>-->
+<!--    <div class="cell" >Mid</div>-->
+<!--    <div class="cell" >BidPrice</div>-->
+<!--    <div class="cell" >AskPrice</div>-->
+<!--  </div>-->
+<!--  <div *ngFor="let m of marketDataList">-->
+<!--    <div class="row" style="display: flex">-->
+<!--      <div class="cell" >{{m.symbol}}</div>-->
+<!--      <div class="cell" >{{m.mid}}</div>-->
+<!--      <div class="cell" >{{m.bidPrice0}}</div>-->
+<!--      <div class="cell" >{{m.askPrice0}}</div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+  <ag-grid-angular
+      #agGrid
+
+      style="width: auto; height:calc(100vh - 150px);"
+    class="ag-theme-balham-dark"
+      [enableCellChangeFlash]="true"
+    [rowData]="rowData"
+    [columnDefs]="columnDefs"
+    (gridReady)="onGridReady($event)"
+  >
+  </ag-grid-angular>
 
 </div>
