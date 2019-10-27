@@ -70,13 +70,16 @@ export class AppComponent implements  OnInit {
   startMessagingWorker($event: MouseEvent): void {
 
     this.startReadingMMAP();
-    // this.worker = new Worker('./messaging.worker', { type: 'module'});
-    // this.worker.postMessage(this.buffer);
+    console.log('Starting Web Worker !!!');
+    this.worker = new Worker('./messaging.worker', { type: 'module'});
 
   }
 
   startReadingInMessagingWorker($event: MouseEvent) {
-    this.worker.postMessage({type: 'start', mmapBuffer: null});
+    const buffer = this.buffer.slice(0);
+    console.log('Buffer Size = ', buffer.byteLength);
+    this.worker.postMessage({type: 'init', mmapBuffer: this.buffer});
+    console.log('Buffer Size After Post Message: ', buffer.byteLength);
   }
 
   onGridReady($event: any) {
