@@ -110,7 +110,7 @@ export class AppComponent implements  OnInit {
        this.firstRow = this.agGrid.api.getFirstDisplayedRow();
        this.lastRow = this.agGrid.api.getLastDisplayedRow();
        this.totalDisplayedRows = this.agGrid.api.getDisplayedRowCount();
-       console.log('Number of Rows Displayed : ', this.totalDisplayedRows, ' First Row = ', this.firstRow, ' Last Row : ', this.lastRow);
+       // console.log('Number of Rows Displayed : ', this.totalDisplayedRows, ' First Row = ', this.firstRow, ' Last Row : ', this.lastRow);
 
 
        for (let i = this.firstRow; i < this.lastRow; i++) {
@@ -155,5 +155,13 @@ export class AppComponent implements  OnInit {
   resumeUpdating($event: MouseEvent) {
 
     this.startUpdateLoop();
+  }
+
+  displayVisibleRowIds($event: MouseEvent) {
+    for (let i = this.firstRow; i < this.lastRow; i++) {
+      const rowNode = this.agGrid.api.getDisplayedRowAtIndex(i);
+      const key = rowNode.data.symbol;
+      console.log('Row Node ID :', key);
+    }
   }
 }
