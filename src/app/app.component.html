@@ -1,6 +1,10 @@
 <div>
-<h1 style="text-align: center">OpenFin MMAP POC</h1>
+<h1 style="text-align: center">OpenFin MMAP POC Number of Records in MMAP : {{numOfRecords | number}}</h1>
+  <h1 style="text-align: center">First Row : {{firstRow}} Last Row : {{lastRow}}</h1>
+
   <button (click)="startMessagingWorker($event)" >Start Reading</button>
+  <button (click)="pauseUpdating($event)" >Pause</button>
+  <button (click)="resumeUpdating($event)" >Resume</button>
   <button (click)="startReadingInMessagingWorker($event)" >Start Worker</button>
 
 <!--  <div class="row" style="display: flex">-->

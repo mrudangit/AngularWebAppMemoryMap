@@ -22,6 +22,7 @@
             "assets": [
               "src/favicon.ico",
               "src/openfin-mmap-poc.json",
+              "src/Desktop_Owner_Settings.json",
               "src/assets"
             ],
             "styles": [

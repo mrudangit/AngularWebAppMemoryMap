@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MarketData} from './MarketData';
 import {AgGridAngular} from 'ag-grid-angular';
+import {ColDef} from 'ag-grid-community';
 declare var fin;
 @Component({
   selector: 'app-root',
@@ -14,6 +15,8 @@ export class AppComponent implements  OnInit {
   private buffer: SharedArrayBuffer;
   public marketDataList: Array<MarketData> = new Array<MarketData>();
 
+  private marketDataMap: Map<string, MarketData> = new Map<string, MarketData>();
+
   @ViewChild('agGrid', {static: true}) agGrid: AgGridAngular;
 
 
@@ -23,9 +26,15 @@ export class AppComponent implements  OnInit {
     {headerName: 'Bid', field: 'bidPrice0'},
     {headerName: 'BidSize', field: 'bidSize0'},
     {headerName: 'Ask', field: 'askPrice0'},
-    {headerName: 'AskSize', field: 'askSize0'}
+    {headerName: 'AskSize', field: 'askSize0'},
+    {headerName: 'RevisionID', field: 'revisionId'}
   ];
   rowData: any;
+  private intervalHandle: any;
+  numOfRecords: number;
+  firstRow: number;
+  lastRow: number;
+  totalDisplayedRows: number;
 
   public startReadingMMAP(): void {
     const MappedFiles = fin && fin.experimental && fin.experimental.MappedFiles;
@@ -38,25 +47,28 @@ export class AppComponent implements  OnInit {
       console.log('File Path : ', file.path());
       this.buffer = file.map();
       console.log('Memory Map Buffer Size: ', this.buffer.byteLength);
-      const numOfRecords = this.buffer.byteLength / MarketData.SIZE;
+      this.numOfRecords = this.buffer.byteLength / MarketData.SIZE;
 
-      for (let i = 0; i < numOfRecords; i++) {
+      console.log('Number of Records in Memory Map File : ', this.numOfRecords);
+
+      for (let i = 0; i < this.numOfRecords; i++) {
 
         const md = new MarketData(this.buffer, i);
         this.marketDataList.push(md);
+
+        md.refresh();
 
       }
 
       this.agGrid.api.updateRowData({add: this.marketDataList});
 
+      this.marketDataList.forEach(value => {
+        this.marketDataMap.set(value.symbol, value);
+      });
 
 
-      setInterval(() => {
-        this.marketDataList.forEach(value => {
-          value.refresh();
-        });
-        this.agGrid.api.refreshCells();
-      }, 200);
+      this.startUpdateLoop();
+
 
     }
   }
@@ -65,6 +77,30 @@ export class AppComponent implements  OnInit {
 
 
 
+  }
+
+
+  startUpdateLoop(): void {
+
+    this.intervalHandle = setInterval(() => {
+
+       this.firstRow = this.agGrid.api.getFirstDisplayedRow();
+       this.lastRow = this.agGrid.api.getLastDisplayedRow();
+       this.totalDisplayedRows = this.agGrid.api.getDisplayedRowCount();
+       console.log('Number of Rows Displayed : ', this.totalDisplayedRows, ' First Row = ', this.firstRow, ' Last Row : ', this.lastRow);
+
+
+       for (let i = this.firstRow; i < this.lastRow; i++) {
+        const rowNode = this.agGrid.api.getDisplayedRowAtIndex(i);
+        const key = rowNode.data.symbol;
+        // console.log('Row Node ID :', key);
+
+        const md = this.marketDataMap.get(key);
+        md.refresh();
+      }
+
+       this.agGrid.api.refreshCells();
+    }, 200);
   }
 
   startMessagingWorker($event: MouseEvent): void {
@@ -86,5 +122,15 @@ export class AppComponent implements  OnInit {
 
     this.agGrid.api.setRowData(this.marketDataList);
 
+  }
+
+  pauseUpdating($event: MouseEvent) {
+
+    clearInterval(this.intervalHandle);
+  }
+
+  resumeUpdating($event: MouseEvent) {
+
+    this.startUpdateLoop();
   }
 }
