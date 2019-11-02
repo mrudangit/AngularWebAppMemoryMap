@@ -3,7 +3,7 @@ import { BufferUtils } from './BufferUtils';
 
 export class MarketData {
 
-  public static SIZE = 224;
+  public static SIZE = 232;
 
   public static SYMBOL_OFFSET = 0;
   public static SYMBOL_ID_OFFSET = 40;
@@ -34,6 +34,7 @@ export class MarketData {
   public static BIDSIZE3_OFFSET = 200;
   public static BIDSIZE4_OFFSET = 208;
   public static REVISIONID_OFFSET = 216;
+  public static SPREAD_OFFSET = 224;
 
   public symbol: string;
   public symbolId: bigint;
@@ -64,8 +65,12 @@ export class MarketData {
   public bidSize4: bigint;
 
   public revisionId: bigint;
+  public spread: number;
+
+
   private dataView: DataView;
   private offSet: number;
+
 
 
 
@@ -120,6 +125,7 @@ export class MarketData {
     this.bidSize4 = this.dataView.getBigInt64(MarketData.BIDSIZE4_OFFSET, true);
 
     this.revisionId = this.dataView.getBigInt64(MarketData.REVISIONID_OFFSET, true);
+    this.spread = this.dataView.getFloat64(MarketData.SPREAD_OFFSET, true);
 
 
 

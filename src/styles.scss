@@ -1,0 +1,23 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+$font-family:  Cascadia Code;
+$font-size: 18px;
+$header-height: 50px;
+
+$header-foreground-color: orange;
+
+$hover-color: black;
+
+$hover-foreground-color: navajoWhite;
+
+@import "~ag-grid-community/src/styles/ag-grid.scss";
+@import "~ag-grid-community/src/styles/ag-theme-balham-dark/sass/ag-theme-balham-dark.scss";
+
+.ag-theme-balham-dark .ag-header {
+  background-color: black;
+  color: orange;
+  font-weight: 600;
+  font-size: 20px;
+  border-bottom: 1px solid #424242;
+}

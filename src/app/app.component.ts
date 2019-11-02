@@ -6,7 +6,7 @@ declare var fin;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements  OnInit {
   title = 'openfin-mmap-poc';
@@ -21,12 +21,35 @@ export class AppComponent implements  OnInit {
 
 
   columnDefs = [
-    {headerName: 'Symbol', field: 'symbol' },
+    {headerName: 'Symbol', field: 'symbol', resizable: true },
     {headerName: 'Mid', field: 'mid' },
+
     {headerName: 'Bid', field: 'bidPrice0'},
-    {headerName: 'BidSize', field: 'bidSize0'},
+    {headerName: 'Spread', field: 'spread' },
     {headerName: 'Ask', field: 'askPrice0'},
+    {headerName: 'BidSize', field: 'bidSize0'},
+
     {headerName: 'AskSize', field: 'askSize0'},
+
+    {headerName: 'Bid1', field: 'bidPrice1'},
+    {headerName: 'BidSize1', field: 'bidSize1'},
+    {headerName: 'Bid2', field: 'bidPrice2'},
+    {headerName: 'BidSize2', field: 'bidSize2'},
+    {headerName: 'Bid3', field: 'bidPrice3'},
+    {headerName: 'BidSize3', field: 'bidSize3'},
+    {headerName: 'Bid4', field: 'bidPrice4'},
+    {headerName: 'BidSize4', field: 'bidSize4'},
+
+    {headerName: 'Ask1', field: 'askPrice1'},
+    {headerName: 'AskSize1', field: 'askSize1'},
+    {headerName: 'Ask2', field: 'askPrice2'},
+    {headerName: 'AskSize2', field: 'askSize2'},
+    {headerName: 'Ask3', field: 'askPrice3'},
+    {headerName: 'AskSize3', field: 'askSize3'},
+    {headerName: 'Ask4', field: 'askPrice4'},
+    {headerName: 'AskSize4', field: 'askSize4'},
+
+
     {headerName: 'RevisionID', field: 'revisionId'}
   ];
   rowData: any;
